@@ -8,24 +8,20 @@ import {
   Delete,
   Query,
   Headers,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserLoginDto } from './dto/login-user.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
-import { AuthService } from 'src/auth/auth.service';
-//import { UserInfo } from './UserInfo';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
-  constructor(
-    private usersService: UsersService,
-    private authService: AuthService,
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   @Post()
   async createUser(@Body() dto: CreateUserDto): Promise<void> {
-    // const { name, email, password } = dto;
     await this.usersService.createUser(dto);
   }
 
@@ -42,15 +38,12 @@ export class UsersController {
     return await this.usersService.login(email, password);
   }
 
-  //void 부분 나중에 UserInfo로 바꿔줘야함
+  @UseGuards(AuthGuard)
   @Get(':id')
   async getUserInfo(
     @Headers() headers: any,
     @Param('id') userId: string,
   ): Promise<UserInfo> {
-    const jwtString = headers.authorization.split('Bearer ')[1];
-    console.log(jwtString);
-    this.authService.verify(jwtString);
     return this.usersService.getUserInfo(userId);
   }
 }

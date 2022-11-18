@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Connection, Document, Types } from 'mongoose';
-import { applyAutoIncrement } from 'src/utils/apply-auto-increment';
+import { applyAutoIncrement } from '../utils/apply-auto-increment';
 
 // MongoDB의 가장 작은 단위가 Document, 모듈에서 사용할 타입을 export 시켜줌
 export type UsersDocument = Users & Document;

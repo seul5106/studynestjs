@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { EmailModule } from 'src/email/email.module';
+import { EmailModule } from '../email/email.module';
 import { MongooseModule, getConnectionToken } from '@nestjs/mongoose';
 import { Users, UsersFactory } from '../users/users.schema';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
+import { LoggingModule } from './logging.module';
+import { BatchModule } from './scheduler/batch.module';
 
 @Module({
   imports: [
-    EmailModule,
-    AuthModule,
     MongooseModule.forFeatureAsync([
       {
         name: Users.name,
@@ -17,6 +17,9 @@ import { AuthModule } from 'src/auth/auth.module';
         inject: [getConnectionToken()],
       },
     ]),
+    LoggingModule,
+    EmailModule,
+    AuthModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

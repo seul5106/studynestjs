@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AuthService } from 'src/auth/auth.service';
-import { EmailService } from 'src/email/email.service';
+import { AuthService } from '../auth/auth.service';
+import { EmailService } from '../email/email.service';
 import * as uuid from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Users, UsersDocument } from './users.schema';
@@ -19,7 +19,8 @@ interface UserInfo {
 
 @Injectable()
 export class UsersService {
-  private readonly logger = new Logger(UsersService.name);
+  // 물어볼것!!!
+  private logger = new Logger(UsersService.name);
 
   constructor(
     @InjectModel(Users.name) private usersModel: Model<UsersDocument>,

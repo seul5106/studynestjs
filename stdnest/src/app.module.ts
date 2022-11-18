@@ -5,6 +5,7 @@ import emailConfig from './config/emailConfig';
 import authConfig from './config/authConfig';
 import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
+import { BatchModule } from './users/scheduler/batch.module';
 
 export const validationSchema = Joi.object({
   EMAIL_SERVICE: Joi.string().required(),
@@ -15,6 +16,7 @@ export const validationSchema = Joi.object({
 
 @Module({
   imports: [
+    BatchModule,
     UsersModule,
     ConfigModule.forRoot({
       envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],

@@ -9,8 +9,6 @@ export function applyAutoIncrement(
 ) {
   const schema = _schema;
 
-  console.log('오토인크리즈먼트');
-
   if (AutoIncrement === undefined) {
     AutoIncrement = AutoIncrementFactory(connection);
   }
