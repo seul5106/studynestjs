@@ -20,7 +20,7 @@ interface UserInfo {
 @Injectable()
 export class UsersService {
   // 물어볼것!!!
-  private logger = new Logger(UsersService.name);
+  private readonly logger = new Logger(UsersService.name);
 
   constructor(
     @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
@@ -79,17 +79,17 @@ export class UsersService {
   }
 
   async verifyEmail(signupVerifyToken: string): Promise<string> {
-    const user = await this.usersModel.findOne({
+    const users = await this.usersModel.findOne({
       signupVerifyToken: signupVerifyToken,
     });
 
-    if (user === null) {
+    if (users === null) {
       throw new NotFoundException('유저가 존재하지 않습니다');
     }
 
     return this.authService.login({
-      name: user.name,
-      email: user.email,
+      name: users.name,
+      email: users.email,
     });
   }
 
@@ -109,7 +109,6 @@ export class UsersService {
     });
   }
 
-  // Promise<UserInfo>
   async getUserInfo(userId: string): Promise<UserInfo> {
     const users = await this.usersModel.findOne({ email: userId });
 
